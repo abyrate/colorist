@@ -1,0 +1,23 @@
+{
+	"name": "aboldyrev/color-manager",
+	"description": "Package for color manipulation",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Andrew Boldyrev",
+			"email": "aboldyrev@bk.ru"
+		}
+	],
+	"require": {
+		"php": ">=7.1",
+		"phpunit/phpunit": "^6.5"
+	},
+	"autoload": {
+		"psr-4": {
+			"Abyrate\\": "src/"
+		}
+	},
+	"require-dev": {
+		"codedungeon/phpunit-result-printer": "^0.5.3"
+	}
+}
