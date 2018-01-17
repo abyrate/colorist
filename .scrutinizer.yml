@@ -1,0 +1,11 @@
+build:
+    environment:
+        php:
+            version: 7.1       # Common versions: 5.4, 5.5, 5.6, 7.0, 7.1, or hhvm
+
+checks:
+    php: true
+
+filter:
+    excluded_paths:
+        - tests/*
