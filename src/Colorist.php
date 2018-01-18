@@ -49,9 +49,9 @@ class Colorist
 	public function __construct(string $color) {
 
 		if (is_int(mb_stripos($color, '#'))) {
-			// hexparser
+			// TODO hex parser
 		} elseif (is_int(mb_stripos($color, 'rgba'))) {
-			// rgba parser
+			// TODO rgba parser
 		} elseif (is_int(mb_stripos($color, 'rgb'))) {
 			$this->parseRGB($color);
 		}
