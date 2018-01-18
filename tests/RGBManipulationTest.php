@@ -26,62 +26,62 @@ class RGBManipulationTest extends TestCase
 	}
 
 
-	public function testGetChanelR() {
+	public function testGetChannelR() {
 		$amber = 'rgb(55,191,0)';
 
 		$color = Colorist::create($amber);
 
-		$this->assertEquals($color->getChanel('r'), 55);
-		$this->assertEquals($color->getChanel(Colorist::CHANEL_R), 55);
+		$this->assertEquals($color->getChannel('r'), 55);
+		$this->assertEquals($color->getChannel(Colorist::CHANNEL_R), 55);
 	}
 
 
-	public function testGetChanelG() {
+	public function testGetChannelG() {
 		$amber = 'rgb(55,191,0)';
 
 		$color = Colorist::create($amber);
 
-		$this->assertEquals($color->getChanel('g'), 191);
-		$this->assertEquals($color->getChanel(Colorist::CHANEL_G), 191);
+		$this->assertEquals($color->getChannel('g'), 191);
+		$this->assertEquals($color->getChannel(Colorist::CHANNEL_G), 191);
 	}
 
 
-	public function testGetChaneB() {
+	public function testGetChannelB() {
 		$amber = 'rgb(55,191,0)';
 
 		$color = Colorist::create($amber);
 
-		$this->assertEquals($color->getChanel('b'), 0);
-		$this->assertEquals($color->getChanel(Colorist::CHANEL_B), 0);
+		$this->assertEquals($color->getChannel('b'), 0);
+		$this->assertEquals($color->getChannel(Colorist::CHANNEL_B), 0);
 	}
 
 
-	public function testSetChanelR() {
+	public function testSetChannelR() {
 		$amber = 'rgb(55,191,0)';
 
 		$color = Colorist::create($amber);
 
-		$this->assertEquals($color->setChanel('r', 35), 35);
-		$this->assertEquals($color->setChanel(Colorist::CHANEL_R, 50), 50);
+		$this->assertEquals($color->setChannel('r', 35)->getRGB()->r, 35);
+		$this->assertEquals($color->setChannel(Colorist::CHANNEL_R, 50)->getRGB()->r, 50);
 	}
 
 
-	public function testSetChanelG() {
+	public function testSetChannelG() {
 		$amber = 'rgb(55,191,0)';
 
 		$color = Colorist::create($amber);
 
-		$this->assertEquals($color->setChanel('g', 26), 26);
-		$this->assertEquals($color->setChanel(Colorist::CHANEL_G, 100), 100);
+		$this->assertEquals($color->setChannel('g', 26)->getRGB()->g, 26);
+		$this->assertEquals($color->setChannel(Colorist::CHANNEL_G, 100)->getRGB()->g, 100);
 	}
 
 
-	public function testSetChaneB() {
+	public function testSetChannelB() {
 		$amber = 'rgb(55,191,0)';
 
 		$color = Colorist::create($amber);
 
-		$this->assertEquals($color->setChanel('b', 36), 36);
-		$this->assertEquals($color->setChanel(Colorist::CHANEL_B, 200), 200);
+		$this->assertEquals($color->setChannel('b', 36)->getRGB()->b, 36);
+		$this->assertEquals($color->setChannel(Colorist::CHANNEL_B, 200)->getRGB()->b, 200);
 	}
 }

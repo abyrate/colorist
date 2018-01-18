@@ -11,12 +11,12 @@ use Abyrate\Colors\RGB;
  */
 class Colorist
 {
-	const CHANEL_R = 'r';
-	const CHANEL_G = 'g';
-	const CHANEL_B = 'b';
+	const CHANNEL_R = 'r';
+	const CHANNEL_G = 'g';
+	const CHANNEL_B = 'b';
 
-	protected $chanels = [
-		'rgb' => [ self::CHANEL_R, self::CHANEL_G, self::CHANEL_B ]
+	protected $channels = [
+		'rgb' => [ self::CHANNEL_R, self::CHANNEL_G, self::CHANNEL_B ]
 	];
 
 	/** @var RGB */
@@ -73,11 +73,11 @@ class Colorist
 	/**
 	 * @param string $chanel
 	 *
-	 * @return int
+	 * @return int|null
 	 */
-	public function getChanel(string $chanel):int {
-		if (in_array($chanel, $this->chanels[ 'rgb' ])) {
-			return $this->rgb->{$chanel};
+	public function getChannel(string $channel) {
+		if (in_array($channel, $this->channels[ 'rgb' ])) {
+			return $this->rgb->{$channel};
 		}
 
 		return NULL;
@@ -85,17 +85,17 @@ class Colorist
 
 
 	/**
-	 * @param string $chanel
+	 * @param string $channel
 	 * @param int    $value
 	 *
-	 * @return int
+	 * @return $this
 	 */
-	public function setChanel(string $chanel, int $value):int {
-		if (in_array($chanel, $this->chanels[ 'rgb' ])) {
-			return $this->rgb->{$chanel} = $value;
+	public function setChannel(string $channel, int $value) {
+		if (in_array($channel, $this->channels[ 'rgb' ])) {
+			$this->rgb->{$channel} = $value;
 		}
 
-		return NULL;
+		return $this;
 	}
 
 
