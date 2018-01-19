@@ -23,15 +23,22 @@ class RGBColorsClassTest extends TestCase
 	}
 
 
+	public function testAlphaChannel() {
+		$rgb = new RGB(0, 102, 255, 0.7);
+		$this->assertEquals($rgb->alpha, 0.7);
+	}
+
+
 	public function testToStringConvert() {
-		$rgb = new RGB(0, 102, 255);
+		$rgb = new RGB(0, 102, 255, 0.3);
 		$this->assertEquals((string)$rgb, 'rgb(0,102,255)');
 	}
 
 
 	public function testStringMethod() {
-		$rgb = new RGB(0, 102, 255);
+		$rgb = new RGB(0, 102, 255, 0.4);
 		$this->assertEquals($rgb->string(), 'rgb(0,102,255)');
+		$this->assertEquals($rgb->string(true), 'rgba(0,102,255,0.4)');
 	}
 
 }

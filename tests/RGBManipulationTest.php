@@ -12,6 +12,8 @@ class RGBManipulationTest extends TestCase
 		$color = Colorist::create($amber);
 
 		$this->assertEquals($color->getRGB(), new RGB(55, 191, 0));
+		// with alpha
+		$this->assertEquals($color->getRGB(true), new RGB(55, 191, 0, 1));
 	}
 
 
@@ -20,9 +22,9 @@ class RGBManipulationTest extends TestCase
 
 		$color = Colorist::create($amber);
 
-		$color->setRGB(35, 26, 36);
+		$color->setRGB(35, 26, 36, 0.5);
 
-		$this->assertEquals($color->getRGB(), new RGB(35, 26, 36));
+		$this->assertEquals($color->getRGB(), new RGB(35, 26, 36, 0.5));
 	}
 
 
@@ -56,6 +58,16 @@ class RGBManipulationTest extends TestCase
 	}
 
 
+	public function testGetChannelAlpha() {
+		$amber = 'rgb(55,191,0,0.8)';
+
+		$color = Colorist::create($amber);
+
+		$this->assertEquals($color->getChannel('alpha'), 0.8);
+		$this->assertEquals($color->getChannel(Colorist::CHANNEL_ALPHA), 0.8);
+	}
+
+
 	public function testSetChannelR() {
 		$amber = 'rgb(55,191,0)';
 
@@ -83,5 +95,15 @@ class RGBManipulationTest extends TestCase
 
 		$this->assertEquals($color->setChannel('b', 36)->getRGB()->b, 36);
 		$this->assertEquals($color->setChannel(Colorist::CHANNEL_B, 200)->getRGB()->b, 200);
+	}
+
+
+	public function testSetChannelAlpha() {
+		$amber = 'rgb(55,191,0)';
+
+		$color = Colorist::create($amber);
+
+		$this->assertEquals($color->setChannel('alpha', 0.3)->getRGB()->alpha, 0.3);
+		$this->assertEquals($color->setChannel(Colorist::CHANNEL_ALPHA, 0.6)->getRGB()->alpha, 0.6);
 	}
 }

@@ -17,6 +17,9 @@ class RGB
 	/** @var integer */
 	public $b;
 
+	/** @var float */
+	public $alpha = 1;
+
 
 	/**
 	 * RGB constructor.
@@ -25,10 +28,11 @@ class RGB
 	 * @param int $g
 	 * @param int $b
 	 */
-	public function __construct(int $r, int $g, int $b) {
+	public function __construct(int $r, int $g, int $b, float $alpha = 1) {
 		$this->r = $r;
 		$this->g = $g;
 		$this->b = $b;
+		$this->alpha = $alpha;
 	}
 
 
@@ -36,14 +40,24 @@ class RGB
 	 * @return string
 	 */
 	public function __toString():string {
-		return 'rgb(' . $this->r . ',' . $this->g . ',' . $this->b . ')';
+		return (string)$this->string();
 	}
 
 
 	/**
 	 * @return string
 	 */
-	public function string():string {
-		return (string)$this;
+	public function string($withAlpha = false):string {
+		$channels = [
+			$this->r,
+			$this->g,
+			$this->b
+		];
+
+		if ($withAlpha) {
+			$channels[] = $this->alpha;
+		}
+
+		return ($withAlpha ? 'rgba' : 'rgb') . '(' . implode(',', $channels) . ')';
 	}
 }
