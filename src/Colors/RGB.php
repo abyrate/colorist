@@ -40,7 +40,7 @@ class RGB
 	 * @return string
 	 */
 	public function __toString():string {
-		return (string)$this->string();
+		return (string) $this->string();
 	}
 
 
