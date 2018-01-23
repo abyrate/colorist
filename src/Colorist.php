@@ -3,6 +3,7 @@
 namespace Abyrate;
 
 use Abyrate\Exceptions\ColoristException;
+use Abyrate\Traits\HEXTrait;
 use Abyrate\Traits\RGBTrait;
 
 /**
@@ -13,18 +14,26 @@ use Abyrate\Traits\RGBTrait;
  */
 class Colorist
 {
-	use RGBTrait;
+	use RGBTrait, HEXTrait;
 
 	protected $alpha = 1;
 
 
 	protected function getModelName(string $string):string {
-		$pattern = '/([\w]*)\(/';
-		preg_match_all($pattern, $string, $result, PREG_SET_ORDER);
-		$result = $result[ 0 ];
-		array_shift($result);
+		$is_hex = mb_substr($string, 0, 1) == '#';
 
-		return $result[ 0 ];
+		if ($is_hex && mb_strlen($string) == 7) {
+			return 'hex';
+		} elseif ($is_hex && mb_strlen($string) == 9) {
+			return 'hexa';
+		} else {
+			$pattern = '/([\w]*)\(/';
+			preg_match_all($pattern, $string, $result, PREG_SET_ORDER);
+			$result = $result[ 0 ];
+			array_shift($result);
+
+			return $result[ 0 ];
+		}
 	}
 
 

@@ -24,7 +24,7 @@ trait RGBTrait
 	private $blue;
 
 
-	private function explodeString(string $string) {
+	private function explodeStringRGB(string $string) {
 		$pattern = '/([\d\.]{1,4}\,?)/';
 		preg_match_all($pattern, $string, $result);
 
@@ -33,7 +33,7 @@ trait RGBTrait
 
 
 	protected function parseRGB(string $color) {
-		$result = $this->explodeString($color);
+		$result = $this->explodeStringRGB($color);
 
 		$this->red = intval($result[ 0 ]);
 		$this->green = intval($result[ 1 ]);
@@ -42,7 +42,7 @@ trait RGBTrait
 
 
 	protected function parseRGBA(string $color) {
-		$result = $this->explodeString($color);
+		$result = $this->explodeStringRGB($color);
 
 		$this->red = intval($result[ 0 ]);
 		$this->green = intval($result[ 1 ]);
