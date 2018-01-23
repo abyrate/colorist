@@ -2,8 +2,8 @@
 
 namespace Abyrate;
 
+use Abyrate\Exceptions\ColoristException;
 use Abyrate\Traits\RGBTrait;
-use Exception;
 
 /**
  * Class Colorist
@@ -36,7 +36,7 @@ class Colorist
 		if (method_exists($this, $method_name)) {
 			$this->{$method_name}($color);
 		} else {
-			throw new Exception('Unknown color model: ' . $model_name);
+			throw new ColoristException('Unknown color model: ' . $model_name);
 		}
 
 		return $this;

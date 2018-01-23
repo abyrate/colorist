@@ -2,6 +2,9 @@
 
 namespace Abyrate\Traits;
 
+
+use Abyrate\Exceptions\ColoristException;
+
 /**
  * Trait RGBTrait
  * @package Abyrate\Traits
@@ -60,7 +63,7 @@ trait RGBTrait
 
 	protected function setRgb(array $value) {
 		if (count($value) < 3) {
-			throw new \Exception('Not a good number of arguments');
+			throw new ColoristException('Not a good number of arguments');
 		}
 
 		$this->red = $value[0];
@@ -71,7 +74,7 @@ trait RGBTrait
 
 	protected function setRgba(array $value) {
 		if (count($value) < 4) {
-			throw new \Exception('Not a good number of arguments');
+			throw new ColoristException('Not a good number of arguments');
 		}
 
 		$this->red = $value[0];

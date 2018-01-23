@@ -2,6 +2,7 @@
 
 use Abyrate\Colorist;
 use PHPUnit\Framework\TestCase;
+use Abyrate\Exceptions\ColoristException;
 
 class RGBManipulationTest extends TestCase
 {
@@ -61,5 +62,27 @@ class RGBManipulationTest extends TestCase
 		$color = Colorist::create('rgb(55,191,0)');
 		$color->b = 36;
 		$this->assertEquals($color->b, 36);
+	}
+
+
+	public function testExceptionNotGoodNumberOfArgumentsRGB() {
+		$color = Colorist::create('rgb(55,191,0)');
+
+		try {
+			$color->rgb = [ 15, 10 ];
+		} finally {
+			$this->expectException(ColoristException::class);
+		}
+	}
+
+
+	public function testExceptionNotGoodNumberOfArgumentsRGBA() {
+		$color = Colorist::create('rgb(55,191,0)');
+
+		try {
+			$color->rgba = [ 15, 10, 25 ];
+		} finally {
+			$this->expectException(ColoristException::class);
+		}
 	}
 }
