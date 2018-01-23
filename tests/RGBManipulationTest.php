@@ -10,18 +10,25 @@ class RGBManipulationTest extends TestCase
 		$color = Colorist::create('rgb(55,191,0)');
 
 		$this->assertEquals($color->rgb, 'rgb(55,191,0)');
-		// with alpha
-		$this->assertEquals($color->rgba, 'rgba(55,191,0,1)');
+	}
+
+
+	public function testGetRGBA() {
+		$color = Colorist::create('rgba(55,191,0, 0.3)');
+		$this->assertEquals($color->rgba, 'rgba(55,191,0,0.3)');
 	}
 
 
 	public function testSetRGB() {
 		$color = Colorist::create('rgb(55,191,0)');
-
-		$color->rgba = [ 35, 26, 36, 0.5 ];
-
+		$color->rgb = [ 35, 26, 36 ];
 		$this->assertEquals($color->rgb, 'rgb(35,26,36)');
-		// With alpha
+	}
+
+
+	public function testSetRGBA() {
+		$color = Colorist::create('rgb(55,191,0)');
+		$color->rgba = [ 35, 26, 36, 0.5 ];
 		$this->assertEquals($color->rgba, 'rgba(35,26,36,0.5)');
 	}
 
