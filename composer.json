@@ -1,11 +1,11 @@
 {
-	"name": "aboldyrev/color-manager",
+	"name": "abyrate/colorist",
 	"description": "Package for color manipulation",
 	"license": "MIT",
 	"authors": [
 		{
 			"name": "Andrew Boldyrev",
-			"email": "aboldyrev@bk.ru"
+			"email": "andreybold@bk.ru"
 		}
 	],
 	"require": {
