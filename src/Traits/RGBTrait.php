@@ -11,9 +11,9 @@ use Abyrate\Exceptions\ColoristException;
  *
  * @property string rgb
  * @property string rgba
- * @property int r
- * @property int g
- * @property int b
+ * @property int    r
+ * @property int    g
+ * @property int    b
  */
 trait RGBTrait
 {
@@ -66,9 +66,9 @@ trait RGBTrait
 			throw new ColoristException('Not a good number of arguments');
 		}
 
-		$this->red = $value[0];
-		$this->green = $value[1];
-		$this->blue = $value[2];
+		$this->red = $value[ 0 ];
+		$this->green = $value[ 1 ];
+		$this->blue = $value[ 2 ];
 	}
 
 
@@ -77,10 +77,10 @@ trait RGBTrait
 			throw new ColoristException('Not a good number of arguments');
 		}
 
-		$this->red = $value[0];
-		$this->green = $value[1];
-		$this->blue = $value[2];
-		$this->alpha = $value[3];
+		$this->red = $value[ 0 ];
+		$this->green = $value[ 1 ];
+		$this->blue = $value[ 2 ];
+		$this->alpha = $value[ 3 ];
 	}
 
 
