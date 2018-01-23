@@ -1,0 +1,2 @@
+var ApiGen = ApiGen || {};
+ApiGen.elements = [{"file":"namespace-Abyrate.html","label":"Abyrate"},{"file":"namespace-Abyrate.Exceptions.html","label":"Abyrate\\Exceptions"},{"file":"namespace-Abyrate.Traits.html","label":"Abyrate\\Traits"},{"file":"namespace-none.html","label":"none"},{"file":"class-Abyrate.Colorist.html","label":"Abyrate\\Colorist"},{"file":"interface-Throwable.html","label":"Throwable"},{"file":"trait-Abyrate.Traits.HEXTrait.html","label":"Abyrate\\Traits\\HEXTrait"},{"file":"trait-Abyrate.Traits.RGBTrait.html","label":"Abyrate\\Traits\\RGBTrait"}];
