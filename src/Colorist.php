@@ -19,6 +19,35 @@ class Colorist
 	protected $alpha = 1;
 
 
+	protected function updateModels($from) {
+		$methods = get_class_methods(self::class);
+
+		if (in_array($from, [ 'rgb', 'rgba', 'r', 'g', 'b' ])) {
+
+			foreach ($methods as $method) {
+				if (is_int(mb_strpos($method, 'convertRgbTo'))) {
+					$this->{$method}($this->red, $this->green, $this->blue);
+				}
+			}
+
+
+		} elseif (!in_array($from, [ 'alpha' ])) {
+
+			if (mb_substr($from, -1) == 'a') {
+				$from = mb_substr($from, 0, mb_strlen($from) - 1);
+			}
+
+			$method_name = 'getRgbFrom' . ucfirst($from);
+			$rgb = $this->{$method_name}();
+
+			$this->red = $rgb[ 0 ];
+			$this->green = $rgb[ 1 ];
+			$this->blue = $rgb[ 2 ];
+
+		}
+	}
+
+
 	protected function getModelName(string $string):string {
 		$is_hex = mb_substr($string, 0, 1) == '#';
 
@@ -44,6 +73,8 @@ class Colorist
 
 		if (method_exists($this, $method_name)) {
 			$this->{$method_name}($color);
+
+			$this->updateModels($model_name);
 		} else {
 			throw new ColoristException('Unknown color model: ' . $model_name);
 		}
@@ -73,6 +104,7 @@ class Colorist
 
 		if (method_exists($this, $method_name)) {
 			$this->{$method_name}($value);
+			$this->updateModels($name);
 		}
 	}
 

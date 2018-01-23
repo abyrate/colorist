@@ -15,8 +15,6 @@ trait HEXTrait
 {
 	private $hex;
 
-	private $hexa;
-
 
 	private function explodeStringHEX(string $string) {
 		$string = str_replace('#', '', $string);
@@ -25,23 +23,13 @@ trait HEXTrait
 
 
 	protected function parseHEX(string $color) {
-		$result = $this->explodeStringHEX($color);
-
 		$this->hex = $color;
-		$this->red = intval(hexdec($result[ 0 ]));
-		$this->green = intval(hexdec($result[ 1 ]));
-		$this->blue = intval(hexdec($result[ 2 ]));
 	}
 
 
 	protected function parseHEXA(string $color) {
-		$result = $this->explodeStringHEX($color);
-
-		$this->hexa = $color;
-		$this->red = intval(hexdec($result[ 0 ]));
-		$this->green = intval(hexdec($result[ 1 ]));
-		$this->blue = intval(hexdec($result[ 2 ]));
-		$this->blue = floatval(hexdec($result[ 3 ])/255);
+		$this->hex = mb_substr($color, 0, 7);
+		$this->alpha = hexdec(mb_substr($color, 7, 2)) / 255;
 	}
 
 
@@ -51,7 +39,9 @@ trait HEXTrait
 
 
 	protected function getHexa() {
-		return $this->hexa;
+		$alpha = intval($this->alpha * 255);
+		$alpha = ($alpha < 16 ? '0' : '') . dechex($alpha);
+		return $this->hex . $alpha;
 	}
 
 
@@ -70,5 +60,25 @@ trait HEXTrait
 		}
 
 		$this->parseHEXA($value);
+	}
+
+
+	protected function getRgbFromHex() {
+		$exploded = array_diff($this->explodeStringHEX($this->hex), [ NULL ]);
+
+		return [
+			hexdec($exploded[ 0 ]),
+			hexdec($exploded[ 1 ]),
+			hexdec($exploded[ 2 ]),
+		];
+	}
+
+
+	protected function convertRgbToHex($red, $green, $blue) {
+		$red = ($red < 16 ? '0' : '') . dechex($red);
+		$green = ($green < 16 ? '0' : '') . dechex($green);
+		$blue = ($blue < 16 ? '0' : '') . dechex($blue);
+
+		$this->hex = '#' . $red . $green . $blue;
 	}
 }
