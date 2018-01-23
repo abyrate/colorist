@@ -16,9 +16,15 @@ class Colorist
 {
 	use RGBTrait, HEXTrait;
 
+	/** @var float */
 	protected $alpha = 1;
 
 
+	/**
+	 * Conversion models when updating properties
+	 *
+	 * @param $from
+	 */
 	protected function updateModels($from) {
 		$methods = get_class_methods(self::class);
 
@@ -48,6 +54,11 @@ class Colorist
 	}
 
 
+	/**
+	 * @param string $string
+	 *
+	 * @return string
+	 */
 	protected function getModelName(string $string):string {
 		$is_hex = mb_substr($string, 0, 1) == '#';
 
@@ -66,6 +77,13 @@ class Colorist
 	}
 
 
+	/**
+	 * Colorist constructor.
+	 *
+	 * @param string $color
+	 *
+	 * @throws ColoristException
+	 */
 	public function __construct(string $color) {
 		$model_name = $this->getModelName($color);
 
@@ -83,12 +101,24 @@ class Colorist
 	}
 
 
-	public static function create(string $color) {
+	/**
+	 * Alias __construct method
+	 *
+	 * @param string $color
+	 *
+	 * @return Colorist
+	 */
+	public static function create(string $color):self {
 		return new self($color);
 	}
 
 
-	public function __get($name) {
+	/**
+	 * @param string $name
+	 *
+	 * @return string|null
+	 */
+	public function __get(string $name) {
 		$method_name = 'get' . ucfirst($name);
 
 		if (method_exists($this, $method_name)) {
@@ -99,7 +129,11 @@ class Colorist
 	}
 
 
-	public function __set($name, $value) {
+	/**
+	 * @param string    $name
+	 * @param int|float $value
+	 */
+	public function __set(string $name, $value) {
 		$method_name = 'set' . ucfirst($name);
 
 		if (method_exists($this, $method_name)) {
@@ -109,12 +143,18 @@ class Colorist
 	}
 
 
+	/**
+	 * @return float
+	 */
 	protected function getAlpha() {
 		return $this->alpha;
 	}
 
 
-	protected function setAlpha($value) {
+	/**
+	 * @param float $value
+	 */
+	protected function setAlpha(float $value) {
 		$this->alpha = $value;
 	}
 }
