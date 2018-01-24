@@ -265,12 +265,25 @@ trait NamesTrait
 	 * @param $red
 	 * @param $green
 	 * @param $blue
+	 *
+	 * @return string
+	 */
+	protected function implodeRGBToHEX($red, $green, $blue):string {
+		$red = ( $red < 16 ? '0' : NULL ) . dechex($red);
+		$green = ( $green < 16 ? '0' : NULL ) . dechex($green);
+		$blue = ( $blue < 16 ? '0' : NULL ) . dechex($blue);
+
+		return mb_strtolower($red . $green . $blue);
+	}
+
+
+	/**
+	 * @param $red
+	 * @param $green
+	 * @param $blue
 	 */
 	protected function convertRgbToName($red, $green, $blue) {
-		$_red = ( $red < 16 ? '0' : NULL ) . dechex($red);
-		$_green = ( $green < 16 ? '0' : NULL ) . dechex($green);
-		$_blue = ( $blue < 16 ? '0' : NULL ) . dechex($blue);
-		$hex = mb_strtolower($_red . $_green . $_blue);
+		$hex = $this->implodeRGBToHEX($red, $green, $blue);
 
 		if ($this->issetName($hex)) {
 			$this->name = $this->searchName($hex);
