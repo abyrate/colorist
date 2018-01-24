@@ -1,6 +1,5 @@
 parameters:
   visibilityLevels: [public, protected] # array
-  annotationGroups: [todo, deprecated] # array
   title: "Colorist Docs" # string
   #baseUrl: "http://apigen.org/api" # string
   overwrite: true # bool
