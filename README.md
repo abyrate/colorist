@@ -13,14 +13,16 @@ This package allows you to convert and manage color models.
 ## Supported color models
 - RGB (RGBA)
 - HEX (HEXA)
+- html colors names
 > Short hex is not supported (#000000 - support, #000 - not support)
+>
+> List of names colors you can see [here](https://abyrate.github.io/colorist/trait-Abyrate.Traits.NamesTrait.html)
 
 ## In the plans
 - HSL (HSLA)
 - HSV (HSVA)
 - CMYK
 - Lab
-- html colors names
 
 ## Requirements
 - PHP >= 7.1
@@ -61,6 +63,7 @@ Supported syntax:
 - 'rgba(0,0,0,0)' - rgb model with alpha channel
 - '#000000' - hex model
 - '#00000000' - hex model with alpha channel
+- 'DarkOrange' - name color
 
 Range of channels:
 - r, g, b - 0-255 (in the hex 00-ff)
@@ -76,7 +79,9 @@ $color->b // get blue channel
 $color->alpha // get alpha channel
 $color->hex // get rgb in the hex format string (e.g. #15af45)
 $color->hexa // get rgb with alpha channel in hex string (e.g. #15af4505)
+$color->name // get name color
 ```
+> If you specified a color not by name, then when you try to get the name of the color, the name closest to the color will be returned
 
 ### Set
 ```php
@@ -88,6 +93,8 @@ $color->b = 155 // set blue channel
 $color->alpha = 0.5 // set alpha channel
 $color->hex = '#ff1501' // get rgb in the hex format string (e.g. #15af45)
 $color->hexa = '#ff1501f0' // set rgb with alpha channel in the hex format string (e.g. #15af45)
+$color->name = 'Orange' // set name color
 ```
+> If you specified an incorrect color name, then if you try to get any value you will get a black color
 
 [API documentation](https://abyrate.github.io/colorist/)
