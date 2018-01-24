@@ -31,4 +31,16 @@ class ConvertModelsTest extends TestCase
 		$color = Colorist::create($hexa);
 		$this->assertEquals($color->rgba, 'rgba(15,25,70,0.2)');
 	}
+
+
+	public function testRGBToName() {
+		$color = Colorist::create('rgb(255,140,0)');
+		$this->assertEquals($color->name, 'DarkOrange');
+	}
+
+
+	public function testNameToRGB() {
+		$color = Colorist::create('DarkOrange');
+		$this->assertEquals($color->rgb, 'rgb(255,140,0)');
+	}
 }

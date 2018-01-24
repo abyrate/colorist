@@ -4,6 +4,7 @@ namespace Abyrate;
 
 use Abyrate\Exceptions\ColoristException;
 use Abyrate\Traits\HEXTrait;
+use Abyrate\Traits\NamesTrait;
 use Abyrate\Traits\RGBTrait;
 
 /**
@@ -14,10 +15,46 @@ use Abyrate\Traits\RGBTrait;
  */
 class Colorist
 {
-	use RGBTrait, HEXTrait;
+	use RGBTrait, HEXTrait, NamesTrait;
 
 	/** @var float */
 	protected $alpha = 1;
+
+
+	/**
+	 * Update rgb model
+	 *
+	 * @param       $from
+	 * @param array $methods
+	 */
+	protected function updateRGBModel($from, array $methods) {
+
+		if (mb_substr($from, -1) == 'a') {
+			$from = mb_substr($from, 0, mb_strlen($from) - 1);
+		}
+
+		$method_name = 'getRgbFrom' . ucfirst($from);
+		$rgb = $this->{$method_name}();
+
+		$this->red = $rgb[ 0 ];
+		$this->green = $rgb[ 1 ];
+		$this->blue = $rgb[ 2 ];
+
+	}
+
+
+	/**
+	 * Update not rgb model
+	 *
+	 * @param array $methods
+	 */
+	protected function updateOtherModels(array $methods) {
+		foreach ($methods as $method) {
+			if (is_int(mb_strpos($method, 'convertRgbTo'))) {
+				$this->{$method}($this->red, $this->green, $this->blue);
+			}
+		}
+	}
 
 
 	/**
@@ -30,26 +67,28 @@ class Colorist
 
 		if (in_array($from, [ 'rgb', 'rgba', 'r', 'g', 'b' ])) {
 
-			foreach ($methods as $method) {
-				if (is_int(mb_strpos($method, 'convertRgbTo'))) {
-					$this->{$method}($this->red, $this->green, $this->blue);
-				}
-			}
-
+			$this->updateOtherModels($methods);
 
 		} elseif (!in_array($from, [ 'alpha' ])) {
 
-			if (mb_substr($from, -1) == 'a') {
-				$from = mb_substr($from, 0, mb_strlen($from) - 1);
-			}
+			$this->updateRGBModel($from, $methods);
 
-			$method_name = 'getRgbFrom' . ucfirst($from);
-			$rgb = $this->{$method_name}();
+		}
+	}
 
-			$this->red = $rgb[ 0 ];
-			$this->green = $rgb[ 1 ];
-			$this->blue = $rgb[ 2 ];
 
+	/**
+	 * Returns 'hex' or 'hexa' string
+	 *
+	 * @param string $string
+	 *
+	 * @return string
+	 */
+	protected function getHexNameModel(string $string):string {
+		if (mb_strlen($string) == 9) {
+			return 'hexa';
+		} else {
+			return 'hex';
 		}
 	}
 
@@ -59,21 +98,31 @@ class Colorist
 	 *
 	 * @return string
 	 */
+	public function getColorNameModel(string $string):string {
+		$pattern = '/([\w]*)\(/';
+		preg_match_all($pattern, $string, $result, PREG_SET_ORDER);
+		$result = $result[ 0 ];
+		array_shift($result);
+
+		return $result[ 0 ];
+	}
+
+
+	/**
+	 * @param string $string
+	 *
+	 * @return string
+	 */
 	protected function getModelName(string $string):string {
-		$is_hex = mb_substr($string, 0, 1) == '#';
 
-		if ($is_hex && mb_strlen($string) == 7) {
-			return 'hex';
-		} elseif ($is_hex && mb_strlen($string) == 9) {
-			return 'hexa';
+		if (is_int(mb_strpos($string, '#'))) {
+			return $this->getHexNameModel($string);
+		} elseif (is_int(mb_strpos($string, '('))) {
+			return $this->getColorNameModel($string);
 		} else {
-			$pattern = '/([\w]*)\(/';
-			preg_match_all($pattern, $string, $result, PREG_SET_ORDER);
-			$result = $result[ 0 ];
-			array_shift($result);
-
-			return $result[ 0 ];
+			return 'name';
 		}
+
 	}
 
 
@@ -91,7 +140,6 @@ class Colorist
 
 		if (method_exists($this, $method_name)) {
 			$this->{$method_name}($color);
-
 			$this->updateModels($model_name);
 		} else {
 			throw new ColoristException('Unknown color model: ' . $model_name);
