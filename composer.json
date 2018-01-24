@@ -9,10 +9,7 @@
 		}
 	],
 	"require": {
-		"php": ">=7.1",
-		"phpunit/phpunit": "^6.5",
-		"apigen/apigen": "dev-master",
-		"roave/better-reflection": "dev-master#c87d856"
+		"php": ">=7.1"
 	},
 	"autoload": {
 		"psr-4": {
@@ -20,6 +17,9 @@
 		}
 	},
 	"require-dev": {
-		"codedungeon/phpunit-result-printer": "^0.5.3"
+		"phpunit/phpunit": "^6.5",
+		"codedungeon/phpunit-result-printer": "^0.5.3",
+		"apigen/apigen": "dev-master",
+		"roave/better-reflection": "dev-master#c87d856"
 	}
 }
