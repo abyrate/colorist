@@ -81,10 +81,13 @@ $color->hexa // get rgb with alpha channel in hex string (e.g. #15af4505)
 ### Set
 ```php
 $color->rgb = 'rgb(45,0,15)' // set rgb
+$color->rgba = 'rgba(45,0,15,0.7)' // set rgb with alpha channel
 $color->r = 15 // set red channel
 $color->g = 57 // set green channel
 $color->b = 155 // set blue channel
+$color->alpha = 0.5 // set alpha channel
 $color->hex = '#ff1501' // get rgb in the hex format string (e.g. #15af45)
+$color->hexa = '#ff1501f0' // set rgb with alpha channel in the hex format string (e.g. #15af45)
 ```
 
 [API documentation](https://abyrate.github.io/colorist/)
