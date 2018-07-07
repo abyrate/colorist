@@ -2,207 +2,281 @@
 
 namespace Abyrate;
 
-use Abyrate\Exceptions\ColoristException;
-use Abyrate\Traits\HEXTrait;
-use Abyrate\Traits\NamesTrait;
-use Abyrate\Traits\RGBTrait;
 
-/**
- * Class Colorist
- * @package Abyrate
- *
- * @property float alpha
- */
+use Abyrate\Exceptions\ColoristException;
+use Abyrate\Interfaces\ModelInterface;
+use Abyrate\Models\HEX;
+use Abyrate\Models\RGB;
+
 class Colorist
 {
-	use RGBTrait, HEXTrait, NamesTrait;
+	/** @var array $classes */
+	protected $classes = [
+		RGB::class,
+		HEX::class,
+	];
 
-	/** @var float */
-	protected $alpha = 1;
+	/** @var array $models */
+	protected $models = [];
 
+	/** @var array $channels */
+	protected $channels = [];
 
-	/**
-	 * Update rgb model
-	 *
-	 * @param       $from
-	 * @param array $methods
-	 */
-	protected function updateRGBModel($from, array $methods) {
-
-		if (mb_substr($from, -1) == 'a') {
-			$from = mb_substr($from, 0, mb_strlen($from) - 1);
-		}
-
-		$method_name = 'getRgbFrom' . ucfirst($from);
-		$rgb = $this->{$method_name}();
-
-		$this->red = $rgb[ 0 ];
-		$this->green = $rgb[ 1 ];
-		$this->blue = $rgb[ 2 ];
-
-	}
+	/** @var array $types */
+	protected $types = [];
 
 
 	/**
-	 * Update not rgb model
+	 * @param string $value
 	 *
-	 * @param array $methods
+	 * @return Colorist
 	 */
-	protected function updateOtherModels(array $methods) {
-		foreach ($methods as $method) {
-			if (is_int(mb_strpos($method, 'convertRgbTo'))) {
-				$this->{$method}($this->red, $this->green, $this->blue);
-			}
-		}
-	}
-
-
-	/**
-	 * Conversion models when updating properties
-	 *
-	 * @param $from
-	 */
-	protected function updateModels($from) {
-		$methods = get_class_methods(self::class);
-
-		if (in_array($from, [ 'rgb', 'rgba', 'r', 'g', 'b' ])) {
-
-			$this->updateOtherModels($methods);
-
-		} elseif (!in_array($from, [ 'alpha' ])) {
-
-			$this->updateRGBModel($from, $methods);
-
-		}
-	}
-
-
-	/**
-	 * Returns 'hex' or 'hexa' string
-	 *
-	 * @param string $string
-	 *
-	 * @return string
-	 */
-	protected function getHexNameModel(string $string):string {
-		if (mb_strlen($string) == 9) {
-			return 'hexa';
-		} else {
-			return 'hex';
-		}
-	}
-
-
-	/**
-	 * @param string $string
-	 *
-	 * @return string
-	 */
-	public function getColorNameModel(string $string):string {
-		$pattern = '/([\w]*)\(/';
-		preg_match_all($pattern, $string, $result, PREG_SET_ORDER);
-		$result = $result[ 0 ];
-		array_shift($result);
-
-		return $result[ 0 ];
-	}
-
-
-	/**
-	 * @param string $string
-	 *
-	 * @return string
-	 */
-	protected function getModelName(string $string):string {
-
-		if (is_int(mb_strpos($string, '#'))) {
-			return $this->getHexNameModel($string);
-		} elseif (is_int(mb_strpos($string, '('))) {
-			return $this->getColorNameModel($string);
-		} else {
-			return 'name';
-		}
-
+	public static function create(string $value) {
+		return new self($value);
 	}
 
 
 	/**
 	 * Colorist constructor.
 	 *
-	 * @param string $color
+	 * @param string|NULL $value
 	 *
 	 * @throws ColoristException
 	 */
-	public function __construct(string $color) {
-		$model_name = $this->getModelName($color);
+	public function __construct(string $value = NULL) {
+		$this->loadModels();
 
-		$method_name = 'parse' . mb_strtoupper($model_name);
+		$parser_name = $this->detectParser($value);
+		$parser_name .= 'Parser';
 
-		if (method_exists($this, $method_name)) {
-			$this->{$method_name}($color);
-			$this->updateModels($model_name);
-		} else {
-			throw new ColoristException('Unknown color model: ' . $model_name);
+		if (!method_exists($this, $parser_name)) {
+			throw ColoristException::notFoundParserMethod($parser_name);
 		}
 
-		return $this;
-	}
+		list($type, $value) = call_user_func([ $this, $parser_name ], $value);
 
-
-	/**
-	 * Alias __construct method
-	 *
-	 * @param string $color
-	 *
-	 * @return Colorist
-	 */
-	public static function create(string $color):self {
-		return new self($color);
-	}
-
-
-	/**
-	 * @param string $name
-	 *
-	 * @return string|null
-	 */
-	public function __get(string $name) {
-		$method_name = 'get' . ucfirst($name);
-
-		if (method_exists($this, $method_name)) {
-			return $this->{$method_name}();
+		if (!in_array($type, $this->types)) {
+			throw ColoristException::typeModelIsUndefined($type);
 		}
 
-		return NULL;
+		/** @var ModelInterface $model */
+		foreach ($this->models as $model) {
+			if ($model->isType($type)) {
+				$model->set($value);
+				break;
+			}
+		}
+
 	}
 
 
 	/**
-	 * @param string    $name
-	 * @param int|float $value
+	 * @param string $channel
+	 * @param        $value
+	 *
+	 * @throws ColoristException
 	 */
-	public function __set(string $name, $value) {
-		$method_name = 'set' . ucfirst($name);
+	public function setChannel(string $channel, $value) {
+		/** @var ModelInterface|null $find_model */
+		$find_model = NULL;
+		if (!in_array($channel, $this->channels)) {
+			throw ColoristException::channelIsUndefined($channel);
+		}
 
-		if (method_exists($this, $method_name)) {
-			$this->{$method_name}($value);
-			$this->updateModels($name);
+		/** @var ModelInterface $model */
+		foreach ($this->models as $model) {
+			if ($model->isChannel($channel)) {
+				$find_model = $model;
+				break;
+			}
+		}
+
+		if (is_null($find_model)) {
+			throw ColoristException::channelNotFound($channel);
+		}
+
+		$find_model->setChannel($channel, $value);
+
+		$this->syncModels($model);
+	}
+
+
+	/**
+	 * @param string $channel
+	 *
+	 * @return float|int
+	 * @throws ColoristException
+	 */
+	public function getChannel(string $channel) {
+		if (!in_array($channel, $this->channels)) {
+			throw ColoristException::channelIsUndefined($channel);
+		}
+
+		/** @var ModelInterface $model */
+		foreach ($this->models as $model) {
+			if ($model->isChannel($channel)) {
+				return $model->getChannel($channel);
+			}
+		}
+
+		throw ColoristException::channelNotFound($channel);
+	}
+
+
+	/**
+	 * @param string $model
+	 * @param string $value
+	 */
+	public function set(string $model, string $value) {
+		$model = $this->getModel($model);
+		$model->set($value);
+		$this->syncModels($model);
+	}
+
+
+	/**
+	 * @param string $model
+	 * @param bool   $withAlpha
+	 * @param bool   $toString
+	 *
+	 * @return \stdClass|string
+	 */
+	public function get(string $model, bool $withAlpha = false, bool $toString = false) {
+		$model = $this->getModel($model);
+
+		return $model->get($withAlpha, $toString);
+	}
+
+
+	protected function loadModels() {
+		foreach ($this->classes as $class) {
+			/** @var ModelInterface $model */
+			$model = new $class();
+
+			$this->loadChannels($model->getChannelsList());
+			$this->loadTypes($model->getTypesList());
+			$this->models[] = $model;
 		}
 	}
 
 
 	/**
-	 * @return float
+	 * @param array $channels
 	 */
-	protected function getAlpha() {
-		return $this->alpha;
+	protected function loadChannels(array $channels) {
+		$this->channels = array_merge($this->channels, $channels);
 	}
 
 
 	/**
-	 * @param float $value
+	 * @param array $types
 	 */
-	protected function setAlpha(float $value) {
-		$this->alpha = $value;
+	protected function loadTypes(array $types) {
+		$this->types = array_merge($this->types, $types);
 	}
+
+
+	/**
+	 * @param string $value
+	 *
+	 * @return string
+	 * @throws ColoristException
+	 */
+	protected function detectParser(string $value) {
+		if (is_string($value) && mb_stripos($value, '#') !== false) {
+			return 'hex';
+		} elseif (is_string($value) && mb_stripos($value, '(') !== false) {
+			return 'other';
+		} elseif (is_string($value)) {
+			return 'name';
+		}
+
+		throw ColoristException::invalidValue($value);
+	}
+
+
+	/**
+	 * @param string $value
+	 *
+	 * @return array
+	 */
+	protected function otherParser(string $value) {
+		preg_match('/([\w]+)\(([\d\,\.\ ]*)\)/i', $value, $matches);
+
+		return [ $matches[ 1 ], explode(',', $matches[ 2 ]) ];
+	}
+
+
+	/**
+	 * @param string $value
+	 *
+	 * @return array
+	 * @throws ColoristException
+	 */
+	protected function hexParser(string $value) {
+		$code = str_replace('#', '', $value);
+		$length = mb_strlen($code);
+
+		if (!in_array($length, [ 3, 4, 6, 8 ])) {
+			throw ColoristException::UndefinedValue($value);
+		}
+
+		$method = $length <= 6 ? 'hex' : 'hexa';
+
+		return [ $method, $code ];
+	}
+
+
+	/**
+	 * @param string $value
+	 *
+	 * @return array
+	 */
+	protected function nameParser(string $value) {
+		return [ 'name', [ $value ] ];
+	}
+
+
+	/**
+	 * @param string $model
+	 *
+	 * @return ModelInterface|null
+	 * @throws ColoristException
+	 */
+	protected function getModel(string $model) {
+		$return = NULL;
+
+		if (!in_array($model, $this->types)) {
+			throw ColoristException::modelIsUndefined($model);
+		}
+
+		/** @var ModelInterface $_model */
+		foreach ($this->models as $_model) {
+			if (in_array($model, $_model->getTypesList())) {
+				$return = $_model;
+			}
+		}
+
+		if (is_null($return)) {
+			throw ColoristException::modelNotFound($model);
+		}
+
+		return $return;
+	}
+
+
+	/**
+	 * @param Model|ModelInterface $source
+	 */
+	protected function syncModels(Model $source) {
+		$rgb = $source->convertToRgb(true, true);
+
+		/** @var ModelInterface $model */
+		foreach ($this->models as $model) {
+			if (get_class($source) != get_class($model)) {
+				$model->convertFromRgb($rgb);
+			}
+		}
+	}
+
 }
