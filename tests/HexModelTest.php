@@ -76,7 +76,7 @@ class HEXModelTest extends TestCase
 		$model = new HEX();
 
 		$model->syncAlpha('15');
-		$this->assertAttributeEquals(15, 'alpha', $model);
+		$this->assertAttributeEquals(21, 'alpha', $model);
 
 		$this->expectException(HexException::class);
 		$this->expectExceptionMessage('Invalid value: 152');
