@@ -5,6 +5,7 @@ namespace Abyrate\Models;
 use Abyrate\Exceptions\HexException;
 use Abyrate\Interfaces\ModelInterface;
 use Abyrate\Model;
+use \stdClass;
 
 class HEX extends Model implements ModelInterface
 {
@@ -54,7 +55,7 @@ class HEX extends Model implements ModelInterface
 	 */
 	public function syncAlpha($alpha) {
 		if (is_string($alpha)) {
-			$this->strToDec($alpha);
+			$alpha = $this->strToDec($alpha);
 		}
 
 		$this->limitation($alpha, 255);
@@ -67,7 +68,7 @@ class HEX extends Model implements ModelInterface
 	 * @param bool $withAlpha
 	 * @param bool $toString
 	 *
-	 * @return string|\stdClass
+	 * @return string|stdClass
 	 */
 	public function convertToRgb(bool $withAlpha = false, bool $toString = false) {
 		$return = [
@@ -131,7 +132,7 @@ class HEX extends Model implements ModelInterface
 	/**
 	 * @param string $channel
 	 *
-	 * @return float|integer
+	 * @return float|integer|string
 	 */
 	public function getChannel(string $channel) {
 		if ($channel == 'hex') {
@@ -168,7 +169,7 @@ class HEX extends Model implements ModelInterface
 	 * @param bool $withAlpha
 	 * @param bool $toString
 	 *
-	 * @return string|\stdClass
+	 * @return string|stdClass
 	 */
 	public function get(bool $withAlpha = false, bool $toString = false) {
 		$return = [

@@ -89,7 +89,7 @@ class RGB extends Model implements ModelInterface
 	/**
 	 * @param string $channel
 	 *
-	 * @return float|integer
+	 * @return float|integer|string
 	 */
 	public function getChannel(string $channel) {
 		if (in_array($channel, $this->channels) || $channel == 'alpha') {

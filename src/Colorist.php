@@ -46,25 +46,29 @@ class Colorist
 	public function __construct(string $value = NULL) {
 		$this->loadModels();
 
-		$parser_name = $this->detectParser($value);
-		$parser_name .= 'Parser';
+		if(!is_null($value)) {
 
-		if (!method_exists($this, $parser_name)) {
-			throw ColoristException::notFoundParserMethod($parser_name);
-		}
+			$parser_name = $this->detectParser($value);
+			$parser_name .= 'Parser';
 
-		list($type, $value) = call_user_func([ $this, $parser_name ], $value);
-
-		if (!in_array($type, $this->types)) {
-			throw ColoristException::typeModelIsUndefined($type);
-		}
-
-		/** @var ModelInterface $model */
-		foreach ($this->models as $model) {
-			if ($model->isType($type)) {
-				$model->set($value);
-				break;
+			if (!method_exists($this, $parser_name)) {
+				throw ColoristException::notFoundParserMethod($parser_name);
 			}
+
+			list($type, $value) = call_user_func([ $this, $parser_name ], $value);
+
+			if (!in_array($type, $this->types)) {
+				throw ColoristException::typeModelIsUndefined($type);
+			}
+
+			/** @var ModelInterface $model */
+			foreach ($this->models as $model) {
+				if ($model->isType($type)) {
+					$model->set($value);
+					break;
+				}
+			}
+
 		}
 
 	}
@@ -77,8 +81,6 @@ class Colorist
 	 * @throws ColoristException
 	 */
 	public function setChannel(string $channel, $value) {
-		/** @var ModelInterface|null $find_model */
-		$find_model = NULL;
 		if (!in_array($channel, $this->channels)) {
 			throw ColoristException::channelIsUndefined($channel);
 		}
@@ -86,18 +88,15 @@ class Colorist
 		/** @var ModelInterface $model */
 		foreach ($this->models as $model) {
 			if ($model->isChannel($channel)) {
-				$find_model = $model;
+				$model->setChannel($channel, $value);
+				$this->syncModels($model);
 				break;
 			}
 		}
 
-		if (is_null($find_model)) {
+		if (is_null($model)) {
 			throw ColoristException::channelNotFound($channel);
 		}
-
-		$find_model->setChannel($channel, $value);
-
-		$this->syncModels($model);
 	}
 
 
@@ -268,7 +267,7 @@ class Colorist
 	/**
 	 * @param Model|ModelInterface $source
 	 */
-	protected function syncModels(Model $source) {
+	protected function syncModels(ModelInterface $source) {
 		$rgb = $source->convertToRgb(true, true);
 
 		/** @var ModelInterface $model */

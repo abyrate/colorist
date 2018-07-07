@@ -78,7 +78,7 @@ interface ModelInterface
 	/**
 	 * @param string $channel
 	 *
-	 * @return float|integer
+	 * @return float|integer|string
 	 */
 	public function getChannel(string $channel);
 
