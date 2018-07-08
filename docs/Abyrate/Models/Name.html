@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="robots" content="index, follow, all" />
-    <title>Abyrate\Models\HEX | Colorist Docs</title>
+    <title>Abyrate\Models\Name | Colorist Docs</title>
 
             <link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css">
         <link rel="stylesheet" type="text/css" href="../../css/bootstrap-theme.min.css">
@@ -19,7 +19,7 @@
     
     </head>
 
-    <body id="class" data-name="class:Abyrate_Models_HEX" data-root-path="../../">
+    <body id="class" data-name="class:Abyrate_Models_Name" data-root-path="../../">
             <div id="content">
         <div id="left-column">
                 <div id="control-panel">
@@ -66,20 +66,20 @@
                         <div class="namespace-breadcrumbs">
             <ol class="breadcrumb">
                 <li><span class="label label-default">class</span></li>
-                        <li><a href="../../Abyrate.html">Abyrate</a></li><li class="backslash">\</li><li><a href="../../Abyrate/Models.html">Models</a></li><li class="backslash">\</li><li>HEX</li>
+                        <li><a href="../../Abyrate.html">Abyrate</a></li><li class="backslash">\</li><li><a href="../../Abyrate/Models.html">Models</a></li><li class="backslash">\</li><li>Name</li>
             </ol>
         </div>
                 <div id="page-content">
                 
     <div class="page-header">
         <h1>
-            HEX
+            Name
                 
         </h1>
     </div>
 
     <p>    class
-    <strong>HEX</strong>        extends <a href="../../Abyrate/Model.html"><abbr title="Abyrate\Model">Model</abbr></a>        implements
+    <strong>Name</strong>        extends <a href="../../Abyrate/Model.html"><abbr title="Abyrate\Model">Model</abbr></a>        implements
         <a href="../../Abyrate/Interfaces/ModelInterface.html"><abbr title="Abyrate\Interfaces\ModelInterface">ModelInterface</abbr></a>
 </p>
 
@@ -131,18 +131,18 @@
                 <td><small>from&nbsp;<a href="../../Abyrate/Model.html#property_alpha"><abbr title="Abyrate\Model">Model</abbr></a></small></td>
             </tr>
                     <tr>
-                <td class="type" id="property_hex">
+                <td class="type" id="property_name">
                                         protected                                        string
                 </td>
-                <td>$hex</td>
+                <td>$name</td>
                 <td class="last"></td>
                 <td></td>
             </tr>
                     <tr>
-                <td class="type" id="property_hexa">
-                                        protected                                        string
+                <td class="type" id="property_names">
+                                        protected                                        array
                 </td>
-                <td>$hexa</td>
+                <td>$names</td>
                 <td class="last"></td>
                 <td></td>
             </tr>
@@ -782,7 +782,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method___construct">
-        <div class="location">at         line 33</div>
+        <div class="location">at         line 193</div>
         <code>                    void
     <strong>__construct</strong>($value = NULL)
         </code>
@@ -820,7 +820,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_create">
-        <div class="location">at         line 45</div>
+        <div class="location">at         line 203</div>
         <code>        static            <a href="../../Abyrate/Interfaces/ModelInterface.html"><abbr title="Abyrate\Interfaces\ModelInterface">ModelInterface</abbr></a>
     <strong>create</strong>(string|array $value)
         </code>
@@ -858,7 +858,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_convertToRgb">
-        <div class="location">at         line 56</div>
+        <div class="location">at         line 214</div>
         <code>                    string|<a target="_blank" href="http://php.net/stdClass">stdClass</a>
     <strong>convertToRgb</strong>(bool $withAlpha = false, bool $toString = false)
         </code>
@@ -901,7 +901,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_convertFromRgb">
-        <div class="location">at         line 84</div>
+        <div class="location">at         line 235</div>
         <code>                    void
     <strong>convertFromRgb</strong>(string|array $rgb)
         </code>
@@ -939,7 +939,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_setChannel">
-        <div class="location">at         line 96</div>
+        <div class="location">at         line 273</div>
         <code>                    void
     <strong>setChannel</strong>(string $channel, string|integer|float $value)
         </code>
@@ -982,7 +982,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getChannel">
-        <div class="location">at         line 110</div>
+        <div class="location">at         line 288</div>
         <code>                    float|integer|string
     <strong>getChannel</strong>(string $channel)
         </code>
@@ -1013,6 +1013,15 @@
     </table>
 
             
+                            <h4>Exceptions</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td><a href="../../Abyrate/Exceptions/NameException.html"><abbr title="Abyrate\Exceptions\NameException">NameException</abbr></a></td>
+                <td></td>
+            </tr>
+            </table>
+
             
                     </div>
     </div>
@@ -1020,7 +1029,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_set">
-        <div class="location">at         line 126</div>
+        <div class="location">at         line 302</div>
         <code>                    void
     <strong>set</strong>(string|array $value)
         </code>
@@ -1058,7 +1067,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_get">
-        <div class="location">at         line 145</div>
+        <div class="location">at         line 315</div>
         <code>                    string|<a target="_blank" href="http://php.net/stdClass">stdClass</a>
     <strong>get</strong>(bool $withAlpha = false, bool $toString = false)
         </code>
