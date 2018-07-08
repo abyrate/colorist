@@ -13,7 +13,8 @@
 	},
 	"autoload": {
 		"psr-4": {
-			"Abyrate\\": "src/"
+			"Abyrate\\": "src/",
+			"Tests\\": "tests"
 		}
 	},
 	"require-dev": {
