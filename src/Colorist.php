@@ -6,6 +6,7 @@ namespace Abyrate;
 use Abyrate\Exceptions\ColoristException;
 use Abyrate\Interfaces\ModelInterface;
 use Abyrate\Models\HEX;
+use Abyrate\Models\Name;
 use Abyrate\Models\RGB;
 
 class Colorist
@@ -14,6 +15,7 @@ class Colorist
 	protected $classes = [
 		RGB::class,
 		HEX::class,
+		Name::class,
 	];
 
 	/** @var array $models */
@@ -46,7 +48,7 @@ class Colorist
 	public function __construct(string $value = NULL) {
 		$this->loadModels();
 
-		if(!is_null($value)) {
+		if (!is_null($value)) {
 
 			$parser_name = $this->detectParser($value);
 			$parser_name .= 'Parser';
