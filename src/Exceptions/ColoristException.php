@@ -7,16 +7,6 @@ use Exception;
 
 class ColoristException extends Exception
 {
-	public static function invalidValue($value) {
-		return new self('Invalid value to detect model (' . print_r($value, true) . ')');
-	}
-
-
-	public static function notFoundParserMethod(string $name) {
-		return new self('Not found parser method: ' . $name);
-	}
-
-
 	public static function UndefinedValue(string $value) {
 		return new self('Undefined value: ' . $value);
 	}
@@ -39,10 +29,5 @@ class ColoristException extends Exception
 
 	public static function modelNotFound(string $model) {
 		return new self('Model not found: ' . $model);
-	}
-
-
-	public static function channelNotFound(string $channel) {
-		return new self('Channel not found: ' . $channel);
 	}
 }

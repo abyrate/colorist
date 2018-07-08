@@ -51,10 +51,6 @@ class Colorist
 			$parser_name = $this->detectParser($value);
 			$parser_name .= 'Parser';
 
-			if (!method_exists($this, $parser_name)) {
-				throw ColoristException::notFoundParserMethod($parser_name);
-			}
-
 			list($type, $value) = call_user_func([ $this, $parser_name ], $value);
 
 			if (!in_array($type, $this->types)) {
@@ -93,10 +89,6 @@ class Colorist
 				break;
 			}
 		}
-
-		if (is_null($model)) {
-			throw ColoristException::channelNotFound($channel);
-		}
 	}
 
 
@@ -117,9 +109,7 @@ class Colorist
 				return $model->getChannel($channel);
 			}
 		}
-
-		throw ColoristException::channelNotFound($channel);
-	}
+	} // @codeCoverageIgnore
 
 
 	/**
@@ -189,9 +179,7 @@ class Colorist
 		} elseif (is_string($value)) {
 			return 'name';
 		}
-
-		throw ColoristException::invalidValue($value);
-	}
+	} // @codeCoverageIgnore
 
 
 	/**
@@ -200,7 +188,7 @@ class Colorist
 	 * @return array
 	 */
 	protected function otherParser(string $value) {
-		preg_match('/([\w]+)\(([\d\,\.\ ]*)\)/i', $value, $matches);
+		preg_match('/([\w]+)\(([\d\w\,\.\ ]*)\)/i', $value, $matches);
 
 		return [ $matches[ 1 ], explode(',', $matches[ 2 ]) ];
 	}
