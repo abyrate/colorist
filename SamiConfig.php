@@ -15,4 +15,5 @@ return new Sami($iterator, [
 	'title'     => 'Colorist Docs',
 	'build_dir' => __DIR__ . '/docs',
 	'cache_dir' => __DIR__ . '/sami_cache',
+	'default_opened_level' => 1,
 ]);
