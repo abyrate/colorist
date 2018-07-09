@@ -17,6 +17,8 @@ This package allows you to convert and manage color models.
 
 > Short hex code is supported (#001122, #012, #00112233, #0123)
 
+> List of names colors you can see [here](https://github.com/abyrate/colorist/blob/master/src/Models/Name.php#L26)
+
 ## In the plans
 - HSL (HSLA)
 - HSV (HSVA)
