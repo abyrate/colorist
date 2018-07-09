@@ -78,7 +78,7 @@
         </h1>
     </div>
 
-    <p>    class
+    <p>abstract     class
     <strong>Model</strong>
 </p>
 
@@ -121,6 +121,28 @@
             <h2>Methods</h2>
 
             <div class="container-fluid underlined">
+                    <div class="row">
+                <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method___construct">__construct</a>(string $value = NULL)
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
+                    static&nbsp;<a href="../Abyrate/Model.html"><abbr title="Abyrate\Model">Model</abbr></a>
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_create">create</a>(string $value)
+        
+                                            <p class="no-description">No description</p>
+                                    </div>
+                <div class="col-md-2"></div>
+            </div>
                     <div class="row">
                 <div class="col-md-2 type">
                     array
@@ -178,13 +200,22 @@
             </div>
                     <div class="row">
                 <div class="col-md-2 type">
+                    void
+                </div>
+                <div class="col-md-8 type">
+                    <a href="#method_set">set</a>(string|array $value)
+        
+                                            <p>Set all model channels</p>                </div>
+                <div class="col-md-2"></div>
+            </div>
+                    <div class="row">
+                <div class="col-md-2 type">
                     int|float
                 </div>
                 <div class="col-md-8 type">
                     <a href="#method_limitation">limitation</a>(int|float $value, int $max, int $min = 0)
         
-                                            <p class="no-description">No description</p>
-                                    </div>
+                                            <p>Limitation of a variable in the range</p>                </div>
                 <div class="col-md-2"></div>
             </div>
             </div>
@@ -194,8 +225,84 @@
 
             <div id="method-details">
                     <div class="method-item">
+                    <h3 id="method___construct">
+        <div class="location">at         line 23</div>
+        <code>                    void
+    <strong>__construct</strong>(string $value = NULL)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$value</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
+                    <h3 id="method_create">
+        <div class="location">at         line 35</div>
+        <code>        static            <a href="../Abyrate/Model.html"><abbr title="Abyrate\Model">Model</abbr></a>
+    <strong>create</strong>(string $value)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string</td>
+                <td>$value</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td><a href="../Abyrate/Model.html"><abbr title="Abyrate\Model">Model</abbr></a></td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
                     <h3 id="method_getChannelsList">
-        <div class="location">at         line 21</div>
+        <div class="location">at         line 43</div>
         <code>                    array
     <strong>getChannelsList</strong>()
         </code>
@@ -223,7 +330,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_getTypesList">
-        <div class="location">at         line 29</div>
+        <div class="location">at         line 51</div>
         <code>                    array
     <strong>getTypesList</strong>()
         </code>
@@ -251,7 +358,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_syncAlpha">
-        <div class="location">at         line 39</div>
+        <div class="location">at         line 61</div>
         <code>                    void
     <strong>syncAlpha</strong>(string|float $alpha)
         </code>
@@ -289,7 +396,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_isType">
-        <div class="location">at         line 54</div>
+        <div class="location">at         line 76</div>
         <code>                    boolean
     <strong>isType</strong>(string $type)
         </code>
@@ -327,7 +434,7 @@
             </div>
                     <div class="method-item">
                     <h3 id="method_isChannel">
-        <div class="location">at         line 64</div>
+        <div class="location">at         line 86</div>
         <code>                    boolean
     <strong>isChannel</strong>(string $channel)
         </code>
@@ -364,9 +471,49 @@
 
             </div>
                     <div class="method-item">
+                    <h3 id="method_set">
+        <div class="location">at         line 98</div>
+        <code>    abstract                void
+    <strong>set</strong>(string|array $value)
+        </code>
+    </h3>
+    <div class="details">
+            
+    
+
+                    <div class="method-description">
+                                    <p>Set all model channels</p>                                                </div>
+                <div class="tags">
+                            <h4>Parameters</h4>
+
+                    <table class="table table-condensed">
+                    <tr>
+                <td>string|array</td>
+                <td>$value</td>
+                <td></td>
+            </tr>
+            </table>
+
+            
+                            <h4>Return Value</h4>
+
+                    <table class="table table-condensed">
+        <tr>
+            <td>void</td>
+            <td></td>
+        </tr>
+    </table>
+
+            
+            
+                    </div>
+    </div>
+
+            </div>
+                    <div class="method-item">
                     <h3 id="method_limitation">
-        <div class="location">at         line 76</div>
-        <code>                    int|float
+        <div class="location">at         line 110</div>
+        <code>            protected        int|float
     <strong>limitation</strong>(int|float $value, int $max, int $min = 0)
         </code>
     </h3>
@@ -374,6 +521,8 @@
             
     
 
+                    <div class="method-description">
+                                    <p>Limitation of a variable in the range</p>                                                </div>
                 <div class="tags">
                             <h4>Parameters</h4>
 
