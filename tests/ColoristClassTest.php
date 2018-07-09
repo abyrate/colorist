@@ -33,11 +33,6 @@ class ColoristClassTest extends TestCase
 		$red = $colorist->getChannel('red');
 
 		$this->assertEquals(15, $red);
-
-		$this->expectException(ColoristException::class);
-		$this->expectExceptionMessage('Channel is undefined: qwer');
-
-		$colorist->setChannel('qwer', 15);
 	}
 
 
@@ -52,6 +47,12 @@ class ColoristClassTest extends TestCase
 	}
 
 
+	public function testParsers() {
+		$this->assertInstanceOf(Colorist::class, Colorist::create('#001122'));
+		$this->assertInstanceOf(Colorist::class, Colorist::create('orange'));
+	}
+
+
 	public function testTypeModelIsUndefined() {
 		$this->expectException(ColoristException::class);
 
@@ -61,13 +62,32 @@ class ColoristClassTest extends TestCase
 	}
 
 
-	public function testChannelIsUndefinedException() {
-		$this->expectException(ColoristException::class);
-
-		$this->expectExceptionMessage('Channel is undefined: qwer');
-
+	public function testChannelIsUndefinedExceptionInTheSetChannel() {
 		$colorist = new Colorist();
 
+		$this->expectException(ColoristException::class);
+		$this->expectExceptionMessage('Channel is undefined: qwer');
+
+		$colorist->setChannel('qwer', 15);
+	}
+
+
+	public function testChannelIsUndefinedExceptionInTheGetChannel() {
+		$colorist = new Colorist();
+
+		$this->expectException(ColoristException::class);
+		$this->expectExceptionMessage('Channel is undefined: qwer');
+
 		$colorist->getChannel('qwer');
+	}
+
+
+	public function testModelIsUndefinedException() {
+		$colorist = new Colorist();
+
+		$this->expectException(ColoristException::class);
+		$this->expectExceptionMessage('Model is undefined: qwer');
+
+		$colorist->get('qwer');
 	}
 }

@@ -191,7 +191,9 @@ class Name extends Model implements ModelInterface
 	 * @return void
 	 */
 	public function __construct($value = NULL) {
-		$this->set($value);
+		if (!is_null($value)) {
+			$this->set($value);
+		}
 	}
 
 

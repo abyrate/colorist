@@ -114,10 +114,6 @@ class Colorist
 			}
 		}
 
-		if (is_null($model)) {
-			throw ColoristException::channelIsUndefined($channel);
-		}
-
 		return $model->getChannel($channel);
 	}
 
@@ -226,32 +222,29 @@ class Colorist
 	 * @return array
 	 */
 	protected function nameParser(string $value) {
-		return [ 'name', [ $value ] ];
+		return [ 'name', $value ];
 	}
 
 
 	/**
-	 * @param string $model
+	 * @param string $type
 	 *
 	 * @return ModelInterface|null
 	 * @throws ColoristException
 	 */
-	protected function getModel(string $model) {
+	protected function getModel(string $type) {
 		$return = NULL;
 
-		if (!in_array($model, $this->types)) {
-			throw ColoristException::modelIsUndefined($model);
+		if (!in_array($type, $this->types)) {
+			throw ColoristException::modelIsUndefined($type);
 		}
 
 		/** @var ModelInterface $_model */
 		foreach ($this->models as $_model) {
-			if (in_array($model, $_model->getTypesList())) {
+			if (in_array($type, $_model->getTypesList())) {
 				$return = $_model;
+				break;
 			}
-		}
-
-		if (is_null($return)) {
-			throw ColoristException::modelNotFound($model);
 		}
 
 		return $return;
