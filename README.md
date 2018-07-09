@@ -85,8 +85,8 @@ $colorist->getChannel('name');  // get color name (e.g. orange)
 
 #### Models
 ```php
-$colorist->get('rgb');  // get rgb string (e.g. rgb(15,156,10))
-$colorist->get('rgba'); // get rgb string with alpha channel (e.g. rgb(15,156,10,0.3))
+$colorist->get('rgb');  // get rgb string (e.g. 15,156,10)
+$colorist->get('rgba'); // get rgb string with alpha channel (e.g. 15,156,10,0.3)
 $colorist->get('hex');  // get rgb in the hex format string (e.g. #15af45)
 $colorist->get('hexa'); // get rgb with alpha channel in hex string (e.g. #15af4505)
 $colorist->get('name'); // get color name (e.g. orange)
