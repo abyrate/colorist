@@ -25,6 +25,20 @@ class ColoristClassTest extends TestCase
 	}
 
 
+	public function testGetChannelsList() {
+		$colorist = new Colorist();
+
+		$this->assertAttributeEquals($colorist->getChannelsList(), 'channels', $colorist);
+	}
+
+
+	public function testGetTypesList() {
+		$colorist = new Colorist();
+
+		$this->assertAttributeEquals($colorist->getTypesList(), 'types', $colorist);
+	}
+
+
 	public function testSetAndGetChannel() {
 		$colorist = new Colorist();
 

@@ -7,7 +7,15 @@ use Abyrate\Exceptions\HexException;
 
 trait HexTrait
 {
-	protected function RgbToHex($rgb, bool $withAlpha = true) {
+	/**
+	 * Converting rgb to hex code
+	 *
+	 * @param string $rgb
+	 * @param bool   $withAlpha
+	 *
+	 * @return string
+	 */
+	protected function RgbToHex(string $rgb, bool $withAlpha = true):string {
 		$value = preg_replace('/[^\d\,\.]+/', '', $rgb);
 		$hex = explode(',', $value);
 
@@ -32,12 +40,14 @@ trait HexTrait
 
 
 	/**
-	 * @param string $value
+	 * Converting hex code to decimal number
+	 *
+	 * @param string $value hex code in string format
 	 *
 	 * @return int
 	 * @throws HexException
 	 */
-	protected function strToDec(string $value) {
+	protected function strToDec(string $value):int {
 		if (mb_strlen($value) == 1) {
 			$value = str_repeat($value, 2);
 			return hexdec('0x' . $value);
@@ -49,24 +59,31 @@ trait HexTrait
 	}
 
 
-	protected function decToHex($value) {
+	/**
+	 * Converting decimal number to hex code string
+	 *
+	 * @param integer $value
+	 *
+	 * @return string
+	 */
+	protected function decToHex(int $value):string {
 		$result = dechex($value);
 
 		if ($value < 16) {
 			$result = '0' . $result;
 		}
 
-		return mb_strtoupper($result);
+		return mb_strtolower($result);
 	}
 
 
-
 	/**
-	 * @param string|array $value
+	 * @param string $value
 	 *
 	 * @return array
+	 * @throws HexException
 	 */
-	protected function parseHex($value):array {
+	protected function parseHex(string $value):array {
 
 		if (is_string($value)) {
 			if (mb_stripos($value, '#') === 0) {

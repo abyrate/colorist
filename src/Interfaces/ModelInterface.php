@@ -3,14 +3,18 @@
 namespace Abyrate\Interfaces;
 
 
+use stdClass;
+
 interface ModelInterface
 {
 	/**
-	 * @param string|array $values
+	 * Creating instance model
+	 *
+	 * @param string $values
 	 *
 	 * @return self
 	 */
-	public static function create($values);
+	public static function create(string $values);
 
 
 	/**
@@ -50,15 +54,19 @@ interface ModelInterface
 
 
 	/**
+	 * Convert instance values to RGB
+	 *
 	 * @param bool $withAlpha
 	 * @param bool $toString
 	 *
-	 * @return string|\stdClass
+	 * @return string|stdClass
 	 */
 	public function convertToRgb(bool $withAlpha = false, bool $toString = false);
 
 
 	/**
+	 * Convert instance values from RGB
+	 *
 	 * @param string|array $rgb
 	 *
 	 * @return void
@@ -67,6 +75,8 @@ interface ModelInterface
 
 
 	/**
+	 * Set single channel
+	 *
 	 * @param string               $channel
 	 * @param string|integer|float $value
 	 *
@@ -76,6 +86,8 @@ interface ModelInterface
 
 
 	/**
+	 * Get single channel
+	 *
 	 * @param string $channel
 	 *
 	 * @return float|integer|string
@@ -84,6 +96,8 @@ interface ModelInterface
 
 
 	/**
+	 * Set all model channels
+	 *
 	 * @param string|array $value
 	 *
 	 * @return void
@@ -92,10 +106,12 @@ interface ModelInterface
 
 
 	/**
+	 * Get all model channels
+	 *
 	 * @param bool $withAlpha
 	 * @param bool $toString
 	 *
-	 * @return string|\stdClass
+	 * @return string|stdClass
 	 */
 	public function get(bool $withAlpha = false, bool $toString = false);
 }

@@ -7,6 +7,7 @@ use Abyrate\Exceptions\NameException;
 use Abyrate\Interfaces\ModelInterface;
 use Abyrate\Model;
 use Abyrate\Traits\HexTrait;
+use stdClass;
 
 class Name extends Model implements ModelInterface
 {
@@ -186,32 +187,12 @@ class Name extends Model implements ModelInterface
 
 
 	/**
-	 * @param string|array|null $values
+	 * Convert instance values to RGB
 	 *
-	 * @return void
-	 */
-	public function __construct($value = NULL) {
-		if (!is_null($value)) {
-			$this->set($value);
-		}
-	}
-
-
-	/**
-	 * @param string|array $value
-	 *
-	 * @return self
-	 */
-	public static function create($value) {
-		return new self($value);
-	}
-
-
-	/**
 	 * @param bool $withAlpha
 	 * @param bool $toString
 	 *
-	 * @return string|\stdClass
+	 * @return string|stdClass
 	 */
 	public function convertToRgb(bool $withAlpha = false, bool $toString = false) {
 		$hex = $this->names[ $this->name ];
@@ -230,6 +211,8 @@ class Name extends Model implements ModelInterface
 
 
 	/**
+	 * Convert instance values from RGB
+	 *
 	 * @param string|array $rgb
 	 *
 	 * @return void
@@ -267,6 +250,8 @@ class Name extends Model implements ModelInterface
 
 
 	/**
+	 * Set single channel
+	 *
 	 * @param string               $channel
 	 * @param string|integer|float $value
 	 *
@@ -282,10 +267,11 @@ class Name extends Model implements ModelInterface
 
 
 	/**
+	 * Get single channel
+	 *
 	 * @param string $channel
 	 *
-	 * @return \stdClass|string
-	 * @throws NameException
+	 * @return float|integer|string
 	 */
 	public function getChannel(string $channel) {
 		if (in_array($channel, $this->channels)) {
@@ -297,6 +283,8 @@ class Name extends Model implements ModelInterface
 
 
 	/**
+	 * Set all model channels
+	 *
 	 * @param string|array $value
 	 *
 	 * @return void
@@ -309,10 +297,12 @@ class Name extends Model implements ModelInterface
 
 
 	/**
+	 * Get all model channels
+	 *
 	 * @param bool $withAlpha
 	 * @param bool $toString
 	 *
-	 * @return string|\stdClass
+	 * @return string|stdClass
 	 */
 	public function get(bool $withAlpha = false, bool $toString = false) {
 		if ($toString) {
@@ -320,7 +310,7 @@ class Name extends Model implements ModelInterface
 		}
 
 		return (object) [
-			'name' => $this->name
+			'name' => $this->name,
 		];
 	}
 }

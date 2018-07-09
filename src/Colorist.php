@@ -8,34 +8,45 @@ use Abyrate\Interfaces\ModelInterface;
 use Abyrate\Models\HEX;
 use Abyrate\Models\Name;
 use Abyrate\Models\RGB;
+use stdClass;
 
+/**
+ * Main class for manipulation with color models
+ * @package Abyrate
+ */
 class Colorist
 {
-	/** @var array $classes */
+	/**
+	 * List of model classes
+	 *
+	 * @var array $classes
+	 */
 	protected $classes = [
 		RGB::class,
 		HEX::class,
 		Name::class,
 	];
 
-	/** @var array $models */
+	/**
+	 * Loaded models
+	 *
+	 * @var array $models
+	 */
 	protected $models = [];
 
-	/** @var array $channels */
+	/**
+	 * List supported channels. Automatically generated list
+	 *
+	 * @var array $channels
+	 */
 	protected $channels = [];
 
-	/** @var array $types */
-	protected $types = [];
-
-
 	/**
-	 * @param string $value
+	 * List supported types. Automatically generated list
 	 *
-	 * @return Colorist
+	 * @var array $types
 	 */
-	public static function create(string $value) {
-		return new self($value);
-	}
+	protected $types = [];
 
 
 	/**
@@ -73,8 +84,38 @@ class Colorist
 
 
 	/**
-	 * @param string $channel
-	 * @param        $value
+	 * Static method for create and set
+	 *
+	 * @param string $value
+	 *
+	 * @return Colorist
+	 */
+	public static function create(string $value) {
+		return new self($value);
+	}
+
+
+	/**
+	 * @return array
+	 */
+	public function getChannelsList():array {
+		return $this->channels;
+	}
+
+
+	/**
+	 * @return array
+	 */
+	public function getTypesList():array {
+		return $this->types;
+	}
+
+
+	/**
+	 * Set one channel
+	 *
+	 * @param string               $channel
+	 * @param string|integer|float $value
 	 *
 	 * @throws ColoristException
 	 */
@@ -95,9 +136,11 @@ class Colorist
 
 
 	/**
+	 * Get value of one channel
+	 *
 	 * @param string $channel
 	 *
-	 * @return float|int
+	 * @return float|int|string
 	 * @throws ColoristException
 	 */
 	public function getChannel(string $channel) {
@@ -119,8 +162,12 @@ class Colorist
 
 
 	/**
+	 * Set model
+	 *
 	 * @param string $model
 	 * @param string $value
+	 *
+	 * @return void
 	 */
 	public function set(string $model, string $value) {
 		$model = $this->getModel($model);
@@ -130,11 +177,13 @@ class Colorist
 
 
 	/**
+	 * Get model
+	 *
 	 * @param string $model
 	 * @param bool   $withAlpha
 	 * @param bool   $toString
 	 *
-	 * @return \stdClass|string
+	 * @return stdClass|string
 	 */
 	public function get(string $model, bool $withAlpha = false, bool $toString = false) {
 		$model = $this->getModel($model);
@@ -143,6 +192,9 @@ class Colorist
 	}
 
 
+	/**
+	 * Loading models
+	 */
 	protected function loadModels() {
 		foreach ($this->classes as $class) {
 			/** @var ModelInterface $model */
@@ -156,6 +208,8 @@ class Colorist
 
 
 	/**
+	 * Loading channels
+	 *
 	 * @param array $channels
 	 */
 	protected function loadChannels(array $channels) {
@@ -164,6 +218,8 @@ class Colorist
 
 
 	/**
+	 * Loading types
+	 *
 	 * @param array $types
 	 */
 	protected function loadTypes(array $types) {
@@ -172,12 +228,14 @@ class Colorist
 
 
 	/**
+	 * Detecting the parser from the set value
+	 *
 	 * @param string $value
 	 *
 	 * @return string
 	 * @throws ColoristException
 	 */
-	protected function detectParser(string $value) {
+	protected function detectParser(string $value):string {
 		if (mb_stripos($value, '#') !== false) {
 			return 'hex';
 		} elseif (mb_stripos($value, '(') !== false) {
@@ -189,11 +247,13 @@ class Colorist
 
 
 	/**
+	 * Getting the model and values from other. Format: rgb(0,0,0); hsv(15,10,3)
+	 *
 	 * @param string $value
 	 *
 	 * @return array
 	 */
-	protected function otherParser(string $value) {
+	protected function otherParser(string $value):array {
 		preg_match('/([\w]+)\(([\d\,\.\ ]*)\)/i', $value, $matches);
 
 		return [ $matches[ 1 ], explode(',', $matches[ 2 ]) ];
@@ -201,12 +261,14 @@ class Colorist
 
 
 	/**
+	 * Getting the model and values from hex. Format: #000; #112233
+	 *
 	 * @param string $value
 	 *
 	 * @return array
 	 * @throws ColoristException
 	 */
-	protected function hexParser(string $value) {
+	protected function hexParser(string $value):array {
 		$code = str_replace('#', '', $value);
 		$length = mb_strlen($code);
 
@@ -217,22 +279,26 @@ class Colorist
 
 
 	/**
+	 * Getting the model and values from name. Format: orange; red
+	 *
 	 * @param string $value
 	 *
 	 * @return array
 	 */
-	protected function nameParser(string $value) {
+	protected function nameParser(string $value):array {
 		return [ 'name', $value ];
 	}
 
 
 	/**
+	 * Getting a model by type
+	 *
 	 * @param string $type
 	 *
 	 * @return ModelInterface|null
 	 * @throws ColoristException
 	 */
-	protected function getModel(string $type) {
+	protected function getModel(string $type):ModelInterface {
 		$return = NULL;
 
 		if (!in_array($type, $this->types)) {
@@ -252,7 +318,9 @@ class Colorist
 
 
 	/**
-	 * @param Model|ModelInterface $source
+	 * Synchronization of models
+	 *
+	 * @param Model|ModelInterface $source Synchronization source
 	 */
 	protected function syncModels(ModelInterface $source) {
 		$rgb = $source->convertToRgb(true, true);

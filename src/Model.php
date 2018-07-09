@@ -3,16 +3,38 @@
 namespace Abyrate;
 
 
-class Model
+abstract class Model
 {
 	/** @var array $channels */
-	protected $channels = [];
+	protected $channels = [ ];
 
 	/** @var array $types */
-	protected $types = [];
+	protected $types = [ ];
 
 	/** @var float $alpha */
 	protected $alpha = 1;
+
+
+	/**
+	 * @param string|null $values
+	 *
+	 * @return void
+	 */
+	public function __construct(string $value = NULL) {
+		if (!is_null($value)) {
+			$this->set($value);
+		}
+	}
+
+
+	/**
+	 * @param string $value
+	 *
+	 * @return self
+	 */
+	public static function create(string $value) {
+		return new static($value);
+	}
 
 
 	/**
@@ -67,6 +89,18 @@ class Model
 
 
 	/**
+	 * Set all model channels
+	 *
+	 * @param string|array $value
+	 *
+	 * @return void
+	 */
+	abstract public function set($value);
+
+
+	/**
+	 * Limitation of a variable in the range
+	 *
 	 * @param int|float $value
 	 * @param int       $max
 	 * @param int       $min

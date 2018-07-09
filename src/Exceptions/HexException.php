@@ -18,6 +18,6 @@ class HexException extends Exception
 
 
 	public static function invalidValue($value) {
-		return new self('Invalid value: ' .  print_r($value, true));
+		return new self('Invalid value: ' . print_r($value, true));
 	}
 }
