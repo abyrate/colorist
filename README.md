@@ -1,26 +1,27 @@
 # Colorist
 
-[![Build Status](https://travis-ci.org/abyrate/colorist.svg?branch=master)](https://travis-ci.org/abyrate/colorist)
-[![Latest Stable Version](https://poser.pugx.org/abyrate/colorist/v/stable)](https://packagist.org/packages/abyrate/colorist)
-[![codecov](https://codecov.io/gh/abyrate/colorist/branch/master/graph/badge.svg)](https://codecov.io/gh/abyrate/colorist)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/abyrate/colorist/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/abyrate/colorist/?branch=master)
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/b8c8df8c-3df2-4fcf-9149-90f49ca47007/mini.png)](https://insight.sensiolabs.com/projects/b8c8df8c-3df2-4fcf-9149-90f49ca47007)
-[![Total Downloads](https://poser.pugx.org/abyrate/colorist/downloads)](https://packagist.org/packages/abyrate/colorist)
-[![License](https://poser.pugx.org/abyrate/colorist/license)](https://packagist.org/packages/abyrate/colorist)
+![PHP version](https://img.shields.io/packagist/php-v/abyrate/colorist.svg)
+[![Latest Stable Version](https://img.shields.io/packagist/v/abyrate/colorist.svg)](https://packagist.org/packages/abyrate/colorist)
+[![Build Status](https://img.shields.io/travis/abyrate/colorist/master.svg?branch=master)](https://travis-ci.org/abyrate/colorist)
+[![codecov](https://img.shields.io/codecov/c/github/abyrate/colorist/master.svg)](https://codecov.io/gh/abyrate/colorist)
+[![Scrutinizer Code Quality](https://img.shields.io/scrutinizer/g/abyrate/colorist.svg?b=master)](https://scrutinizer-ci.com/g/abyrate/colorist/?branch=master)
+[![Total Downloads](https://img.shields.io/packagist/dt/abyrate/colorist.svg)](https://packagist.org/packages/abyrate/colorist)
+[![License](https://img.shields.io/github/license/abyrate/colorist.svg)](https://packagist.org/packages/abyrate/colorist)
 
 This package allows you to convert and manage color models.
 
 ## Supported color models
 - RGB (RGBA)
 - HEX (HEXA)
-> Short hex is not supported (#000000 - support, #000 - not support)
+- html colors names
+
+> Short hex code is supported (#001122, #012, #00112233, #0123)
 
 ## In the plans
 - HSL (HSLA)
 - HSV (HSVA)
 - CMYK
 - Lab
-- html colors names
 
 ## Requirements
 - PHP >= 7.1
@@ -35,7 +36,7 @@ Or add the following in your root composer.json file:
 ```json
 {
 	"require": {
-		"abyrate/colorist": "~1.0"
+		"abyrate/colorist": "~2.0"
 	}
 }
 ```
@@ -45,6 +46,8 @@ $ composer update
 ```
 
 ## Usage
+
+> If you change the values of any model, the rest are automatically updated
 
 ### Create
 
@@ -61,33 +64,54 @@ Supported syntax:
 - 'rgba(0,0,0,0)' - rgb model with alpha channel
 - '#000000' - hex model
 - '#00000000' - hex model with alpha channel
+- 'orange' - name model
 
 Range of channels:
 - r, g, b - 0-255 (in the hex 00-ff)
 - alpha - 0-1 (float value. In the hex 00-ff)
 
 ### Get
+
+#### Channels
 ```php
-$color->rgb // get rgb string (e.g. rgb(15,156,10))
-$color->rgba // get rgb string with alpha channel (e.g. rgb(15,156,10,0.3))
-$color->r // get red channel
-$color->g // get green channel
-$color->b // get blue channel
-$color->alpha // get alpha channel
-$color->hex // get rgb in the hex format string (e.g. #15af45)
-$color->hexa // get rgb with alpha channel in hex string (e.g. #15af4505)
+$colorist->getChannel('red');   // get red channel
+$colorist->getChannel('green'); // get green channel
+$colorist->getChannel('blue');  // get blue channel
+$colorist->getChannel('alpha'); // get alpha channel
+$colorist->getChannel('hex');   // get hex code (e.g. #15af45)
+$colorist->getChannel('hexa');  // get hex code with alpha (e.g. #15af4505)
+$colorist->getChannel('name');  // get color name (e.g. orange)
+```
+
+#### Models
+```php
+$colorist->get('rgb');  // get rgb string (e.g. rgb(15,156,10))
+$colorist->get('rgba'); // get rgb string with alpha channel (e.g. rgb(15,156,10,0.3))
+$colorist->get('hex');  // get rgb in the hex format string (e.g. #15af45)
+$colorist->get('hexa'); // get rgb with alpha channel in hex string (e.g. #15af4505)
+$colorist->get('name'); // get color name (e.g. orange)
 ```
 
 ### Set
+
+#### Channels
 ```php
-$color->rgb = 'rgb(45,0,15)' // set rgb
-$color->rgba = 'rgba(45,0,15,0.7)' // set rgb with alpha channel
-$color->r = 15 // set red channel
-$color->g = 57 // set green channel
-$color->b = 155 // set blue channel
-$color->alpha = 0.5 // set alpha channel
-$color->hex = '#ff1501' // get rgb in the hex format string (e.g. #15af45)
-$color->hexa = '#ff1501f0' // set rgb with alpha channel in the hex format string (e.g. #15af45)
+$colorist->setChannel('red', 15);           // set red channel
+$colorist->setChannel('green', 20);         // set green channel
+$colorist->setChannel('blue', 25);          // set blue channel
+$colorist->setChannel('alpha', 0.3);        // set alpha channel
+$colorist->setChannel('hex', '#004');       // set hex code
+$colorist->setChannel('hexa', '#00112233'); // set hex code with alpha
+$colorist->setChannel('name', 'orange');    // set color name
+```
+
+#### Models
+```php
+$colorist->set('rgb', 'rgb(0,15,36)');       // set rgb string
+$colorist->set('rgba', 'rgb(0,15,36, 0.1)'); // set rgb string with alpha channel
+$colorist->set('hex', '#123');               // set rgb in the hex format string
+$colorist->set('hexa', '#1234');             // set rgb with alpha channel in hex string
+$colorist->set('name', 'orange');            // set color name (e.g. orange)
 ```
 
 [API documentation](https://abyrate.github.io/colorist/)
