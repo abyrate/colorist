@@ -57,7 +57,7 @@ class ColoristClassTest extends TestCase
 
 		$this->expectExceptionMessage('Type model is undefined: qwer');
 
-		new Colorist('qwer(df,fd,weqe,d)');
+		new Colorist('qwer(5,6,7,5)');
 	}
 
 

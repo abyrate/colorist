@@ -101,6 +101,8 @@ class Colorist
 	 * @throws ColoristException
 	 */
 	public function getChannel(string $channel) {
+		$model = NULL;
+
 		if (!in_array($channel, $this->channels)) {
 			throw ColoristException::channelIsUndefined($channel);
 		}
@@ -108,10 +110,16 @@ class Colorist
 		/** @var ModelInterface $model */
 		foreach ($this->models as $model) {
 			if ($model->isChannel($channel)) {
-				return $model->getChannel($channel);
+				break;
 			}
 		}
-	} // @codeCoverageIgnore
+
+		if (is_null($model)) {
+			throw ColoristException::channelIsUndefined($channel);
+		}
+
+		return $model->getChannel($channel);
+	}
 
 
 	/**
@@ -174,14 +182,14 @@ class Colorist
 	 * @throws ColoristException
 	 */
 	protected function detectParser(string $value) {
-		if (is_string($value) && mb_stripos($value, '#') !== false) {
+		if (mb_stripos($value, '#') !== false) {
 			return 'hex';
-		} elseif (is_string($value) && mb_stripos($value, '(') !== false) {
+		} elseif (mb_stripos($value, '(') !== false) {
 			return 'other';
-		} elseif (is_string($value)) {
+		} else {
 			return 'name';
 		}
-	} // @codeCoverageIgnore
+	}
 
 
 	/**
@@ -190,7 +198,7 @@ class Colorist
 	 * @return array
 	 */
 	protected function otherParser(string $value) {
-		preg_match('/([\w]+)\(([\d\w\,\.\ ]*)\)/i', $value, $matches);
+		preg_match('/([\w]+)\(([\d\,\.\ ]*)\)/i', $value, $matches);
 
 		return [ $matches[ 1 ], explode(',', $matches[ 2 ]) ];
 	}
@@ -206,11 +214,7 @@ class Colorist
 		$code = str_replace('#', '', $value);
 		$length = mb_strlen($code);
 
-		if (!in_array($length, [ 3, 4, 6, 8 ])) {
-			throw ColoristException::UndefinedValue($value);
-		}
-
-		$method = $length <= 6 ? 'hex' : 'hexa';
+		$method = in_array($length, [ 3, 6 ]) ? 'hex' : 'hexa';
 
 		return [ $method, $code ];
 	}
