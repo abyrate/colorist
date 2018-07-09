@@ -3,3 +3,4 @@ composer.phar
 /coverage.xml
 /coverage/
 /composer.lock
+/sami_cache/
