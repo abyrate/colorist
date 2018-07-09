@@ -73,7 +73,7 @@ class Model
 	 *
 	 * @return int|float
 	 */
-	public function limitation(&$value, int $max, int $min = 0) {
+	protected function limitation(&$value, int $max, int $min = 0) {
 		if ($value > $max) {
 			$value = $max;
 		} elseif ($value < $min) {

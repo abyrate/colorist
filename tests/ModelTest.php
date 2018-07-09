@@ -11,19 +11,19 @@ class ModelTest extends TestCase
 	public function testLimitationMax() {
 		$model = new Model();
 
-		$value = 300;
-		$model->limitation($value, 255, 0);
+		$value = 3;
+		$model->syncAlpha($value);
 
-		$this->assertEquals(255, $value);
+		$this->assertAttributeEquals(1, 'alpha', $model);
 	}
 
 
 	public function testLimitationMin() {
 		$model = new Model();
 
-		$value = 10;
-		$model->limitation($value, 255, 200);
+		$value = -5;
+		$model->syncAlpha($value);
 
-		$this->assertEquals(200, $value);
+		$this->assertAttributeEquals(0, 'alpha', $model);
 	}
 }
